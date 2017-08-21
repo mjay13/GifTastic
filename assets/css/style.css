@@ -1,0 +1,15 @@
+
+    h1,
+    button,
+    div,
+    form,
+    input,
+    img,
+    p {
+      margin: 10px;
+    }
+
+
+    .makeMeFloat {
+    	float: left;
+    }
