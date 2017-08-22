@@ -83,11 +83,9 @@ $(document).ready(function() {
 
                 var gifsDiv = $("<div class='well well-sm makeMeFloat'>");
 
-               
-
                 var gifsImages = $("<img class='goOrStop img-rounded'>");
 
-                 var p = $("<p>").text("rating: " + results[i].rating);
+                var p = $("<p>").text("rating: " + results[i].rating);
 
                 gifsImages.attr("src", results[i].images.fixed_height_still.url);
                 gifsImages.attr("data-still", results[i].images.fixed_height_still.url);
@@ -96,7 +94,6 @@ $(document).ready(function() {
 
                 gifsDiv.append(p);
                 gifsDiv.append(gifsImages);
-
 
                 $("#gifsAppear").prepend(gifsDiv);
 
@@ -121,7 +118,7 @@ $(document).ready(function() {
 
             console.log(state);
 
-            if (state === "still") {
+            if (state == "still") {
                 $(this).attr("src", $(this).attr("data-animate"));
                 $(this).attr("data-state", "animate");
             } else {
@@ -145,6 +142,18 @@ $(document).ready(function() {
     // the buttons should function like the buttons above
 
     // $("#buttons").empty(); ??
+
+
+    $("#addButton").on("click", function(event) {
+        event.preventDefault();
+
+        var newGifButton = $("#searchbarInput").val().trim();
+
+        topics.push(newGifButton);
+
+        makeButtons();
+
+      });
 
 
 
