@@ -1,5 +1,7 @@
 
-    h1,
+    h1 {
+    	margin: 50px;
+    }
     button,
     div,
     form,
@@ -11,5 +13,9 @@
 
 
     .makeMeFloat {
+    	float: left;
+    }
+
+    .well {
     	float: left;
     }

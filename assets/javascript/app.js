@@ -1,26 +1,10 @@
-// Before you can make any part of our site work, you need to create an array of strings, each one related to a topic that interests you. Save it to a variable called topics.
-
-// We chose animals for our theme, but you can make a list to your own liking.
-// Your app should take the topics in this array and create buttons in your HTML.
-
-// Try using a loop that appends a button for each string in the array.
-// When the user clicks on a button, the page should grab 10 static, non-animated gif images from the GIPHY API and place them on the page.
-
-// When the user clicks one of the still GIPHY images, the gif should animate. If the user clicks the gif again, it should stop playing.
-
-// Under every gif, display its rating (PG, G, so on).
-
-// This data is provided by the GIPHY API.
-// Only once you get images displaying with button presses should you move on to the next step.
-// Add a form to your page takes the value from a user input box and adds it into your topics array. Then make a function call that takes each topic in the array remakes the buttons on the page.
-
 $(document).ready(function() {
     console.log("ready");
 
     // * * Step One * *
 
     // var for an array of strings
-    var topics = ["horses", "dogs", "big dogs", "funny dogs", "slow clap", "pigs"];
+    var topics = ["horses", "dogs", "big dogs", "funny dogs", "slow clap", "yay", "sad face", "pigs", "wet cats"];
 
 
     // use a loop that appends a button for each string in the array
@@ -34,7 +18,7 @@ $(document).ready(function() {
     // display rating under each gif
 
 
-    // make buttons for topics array
+  // make buttons for topics array
     function makeButtons() {
 
         $("#buttonsGoHere").empty();
@@ -42,8 +26,7 @@ $(document).ready(function() {
         // use a loop that appends a button for each string in the array
         for (var i = 0; i < topics.length; i++) {
             // console.log(topics[i]);
-            // $("#buttonsGoHere").append("<button class='clickMe btn btn-info'>" + topics[i] + "</button>");
-            // $("button").attr("data-name", topics[i]); // applying only the last data from the index to everyone?!?!?! this doesn't work
+          
             var a = $("<button>");
             a.addClass("clickMe btn btn-info");
             a.attr("data-name", topics[i]);
@@ -52,20 +35,19 @@ $(document).ready(function() {
         }
     }
 
-    // on click event
-    //$(".clickMe").on("click", function() {
-    function getGifs() {   
+  // function to bring in gifs with the api
+    function getGifs() {
 
-        var buttonText = $(this).attr("data-name"); // grabbing this but where can i get * * * 
+        var buttonText = $(this).attr("data-name"); // grabbing the data name to search in giphy
 
         var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=664e05291b014c27933e028eb228c181&q=" + buttonText + "&limit=10&lang=en";
 
-        // function for getting *things* from giphy
+        // function for getting *gifs* from giphy
         $.ajax({
             url: queryURL,
             method: "GET"
         }).done(function(response) {
-            console.log(response);
+            //console.log(response);
 
             var results = response.data;
 
@@ -75,26 +57,26 @@ $(document).ready(function() {
 
                 var p = $("<p>").text("rating: " + results[i].rating);
 
-                var gifsImages = $("<img class='goOrStop img-rounded'>");
+                var gifsImages = $("<img class='img-rounded'>");
 
                 gifsImages.attr("src", results[i].images.fixed_height_still.url);
                 gifsImages.attr("data-still", results[i].images.fixed_height_still.url);
                 gifsImages.attr("data-animate", results[i].images.fixed_height.url);
                 gifsImages.attr("data-state", "still");
 
-                gifsDiv.append(p);
                 gifsDiv.append(gifsImages);
+                gifsDiv.append(p);
 
                 $("#gifsAppear").prepend(gifsDiv);
             }
         });
     }
- // get out of here
-    $(".goOrStop").on("click", function() {
+
+  // function for animating and still gifs
+    function swapGifs() {
+        //console.log("I have been clicked!");
 
         var state = $("img").attr("data-state");
-
-        console.log(state);
 
         if (state == "still") {
             $(this).attr("src", $(this).attr("data-animate"));
@@ -103,9 +85,10 @@ $(document).ready(function() {
             $(this).attr("src", $(this).attr("data-still"));
             $(this).attr("data-state", "still");
         }
-    });
+    }
 
-    // call makeButtons function to load the intial buttons from topics array
+
+  // call makeButtons function to load the intial buttons from topics array
     makeButtons();
 
     // * * Step Two * *
@@ -116,8 +99,6 @@ $(document).ready(function() {
 
     // the buttons should function like the buttons above
 
-    // $("#buttons").empty(); ??
-
 
     $("#addButton").on("click", function(event) {
         event.preventDefault();
@@ -126,11 +107,20 @@ $(document).ready(function() {
 
         topics.push(newGifButton);
 
+        document.getElementById('searchbarInput').value = ''; // clears the searchbar after input is submitted to make a button
+
         makeButtons();
 
     });
 
-$(document).on("click", ".clickMe", getGifs);
 
-    // document ready closing tag
+  // listeners for click funtions
+    $(document).on("click", ".clickMe", getGifs); // wait where is .clickMe
+
+    $(document).on("click", "img", swapGifs); 
+
+    //click to still and animate only working on first gif
+
+
+  // document ready closing tag
 });
