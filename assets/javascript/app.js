@@ -34,7 +34,7 @@ $(document).ready(function() {
             url: queryURL,
             method: "GET"
         }).done(function(response) {
-            //console.log(response);
+            console.log(response);
 
             var results = response.data;
 
@@ -64,9 +64,9 @@ $(document).ready(function() {
 
         console.log("gif has been clicked!");
 
-        var state = $("img").attr("data-state");
+        var state = $(this).attr("data-state"); // used this instead of img to fix the issue, calls what is clicked not just the first img
 
-        if (state == "still") { // issues here - only the first gif in the list funtions properly, the rest can start, but not go back to still
+        if (state == "still") { // issues here (solved) - only the first gif in the list funtions properly, the rest can start, but not go back to still
             $(this).attr("src", $(this).attr("data-animate"));
             $(this).attr("data-state", "animate");
         } else {
@@ -79,7 +79,7 @@ $(document).ready(function() {
     // call makeButtons function to load the intial buttons from topics array
     makeButtons();
 
-    // makes new buttons from searchbar inputß   
+    // makes new buttons from searchbar input   
     $("#addButton").on("click", function(event) {
         event.preventDefault();
 
