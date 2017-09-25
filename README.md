@@ -1,2 +1,10 @@
 # GifTastic
-week six homework
+
+
+
+
+
+
+
+
+2017 Megan M Jacobs
